@@ -11,7 +11,7 @@ namespace :deploy do
   end
 
   def upload_env_file(file)
-    to_path = "#{shared_path}/#{file}"
+    to_path = "#{shared_path}/#{File.basename(file)}"
     info "deploying #{file} => #{to_path}"
     upload! file, to_path
   end
@@ -26,7 +26,7 @@ namespace :deploy do
     on roles(:all) do
       [env_file, stage_env_file].each do |file|
         if env_file_is_okay?(file)
-      	  upload_env_file(file)
+          upload_env_file(file)
         else
           warning_env_file_not_found(file)
         end
